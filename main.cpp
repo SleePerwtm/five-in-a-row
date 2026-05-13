@@ -14,6 +14,8 @@ public:
   bool placeAt(int x, int y, Chess chess);
   /* 扫描整个棋盘，判断是否出现五连 */
   bool hasFiveInBoard(Chess chess) const;
+  /* 以指定位置为中心，判断是否出现五连 */
+  bool hasFiveAt(int x, int y, Chess chess) const;
   /* 将棋盘打印到终端中 */
   void printBoardToTerminal() const;
 
@@ -83,6 +85,48 @@ bool Board::hasFiveInBoard(Chess chess) const {
   return false;
 }
 
+/* 以指定位置为中心，判断是否出现五连 */
+bool Board::hasFiveAt(int x, int y, Chess chess) const {
+  if (!inBound(x, y) || at(x, y) != chess) {
+    return false;
+  }
+
+  const int kDirections[4][2] = {
+      {1, 0},  // 横向
+      {0, 1},  // 竖向
+      {1, 1},  // 对角线方向
+      {1, -1}, // 反对角线方向
+  };
+
+  for (const auto kDirection : kDirections) {
+    int count = 1;
+
+    for (int step = 1; step <= 4; ++step) {
+      int next_x = x + kDirection[0] * step;
+      int next_y = y + kDirection[1] * step;
+      if (!inBound(next_x, next_y) || at(next_x, next_y) != chess) {
+        break;
+      }
+      ++count;
+    }
+
+    for (int step = 1; step <= 4; ++step) {
+      int next_x = x - kDirection[0] * step;
+      int next_y = y - kDirection[1] * step;
+      if (!inBound(next_x, next_y) || at(next_x, next_y) != chess) {
+        break;
+      }
+      ++count;
+    }
+
+    if (count >= 5) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 /* 将棋盘打印到终端中 */
 void Board::printBoardToTerminal() const {
   for (std::size_t i = 0; i < board_.size(); ++i) {
@@ -127,6 +171,6 @@ int main(int argc, char** argv) {
     board.placeAt(i, 5, Chess::kBlack);
   }
   board.printBoardToTerminal();
-  std::cout << "Black win:" << (board.hasFiveInBoard(Chess::kBlack) ? "yes" : "no") << std::endl;
+  std::cout << "Black win:" << (board.hasFiveAt(1, 5, Chess::kBlack) ? "yes" : "no") << std::endl;
   return 0;
 }
