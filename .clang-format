@@ -1,0 +1,10 @@
+---
+# 语言
+Language: Cpp
+# 代码风格
+BasedOnStyle: LLVM
+# 缩进宽度
+# IndentWidth: 4
+# 指针对齐方式
+PointerAlignment: Left
+---
