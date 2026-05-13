@@ -168,7 +168,7 @@ int main(int argc, char** argv) {
   board.placeAt(1, 3, Chess::kBlack);
   for (int i = 0; i < 5; ++i) {
     int a = i + 4;
-    board.placeAt(i, 5, Chess::kBlack);
+    board.placeAt(a, 5, Chess::kBlack);
   }
   board.printBoardToTerminal();
   std::cout << "Black win:" << (board.hasFiveAt(1, 5, Chess::kBlack) ? "yes" : "no") << std::endl;
