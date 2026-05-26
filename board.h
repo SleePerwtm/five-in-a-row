@@ -26,6 +26,8 @@ public:
   bool isEmpty(int x, int y) const;
   /* 清空棋盘 */
   void clear();
+  /* 强制清除指定位置的棋子（悔棋专用） */
+  void forceClear(int x, int y);
 
   /* 获取棋盘宽度 */
   int width() const;

@@ -152,5 +152,12 @@ void Board::clear() {
   std::fill(pieces_.begin(), pieces_.end(), Chess::kEmpty);
 }
 
+/* 强制清除指定位置的棋子（悔棋专用） */
+void Board::forceClear(int x, int y) {
+  if (inBound(x, y)) {
+    pieces_[index(x, y)] = Chess::kEmpty;
+  }
+}
+
 int Board::width() const { return width_; }
 int Board::height() const { return height_; }
