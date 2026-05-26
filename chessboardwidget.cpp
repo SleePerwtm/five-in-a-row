@@ -12,8 +12,8 @@ ChessBoardWidget::ChessBoardWidget(QWidget* parent) : QWidget(parent) {}
 
 /* 设置要绘制的 Board 对象 */
 void ChessBoardWidget::set_board(const Board* board) {
-    board_ = board;
-    update();
+  board_ = board;
+  update();
 }
 
 /* 设置棋盘路数 */
@@ -80,17 +80,19 @@ void ChessBoardWidget::paintEvent(QPaintEvent* event) {
 
 /* 重写的方法，用来处理点击逻辑 */
 void ChessBoardWidget::mouseReleaseEvent(QMouseEvent* event) {
-    QPoint pos = event->pos();
-    QPoint cell = pixelToCell(pos.x(), pos.y());
+  QPoint pos = event->pos();
+  QPoint cell = pixelToCell(pos.x(), pos.y());
 
-    if (cell.x() == -1) return;
+  if (cell.x() == -1)
+    return;
 
-    int row = cell.x();
-    int col = cell.y();
+  int row = cell.x();
+  int col = cell.y();
 
-    if (board_ && !board_->isEmpty(col, row)) return;
+  if (board_ && !board_->isEmpty(col, row))
+    return;
 
-    emit cellClicked(row, col);
+  emit cellClicked(row, col);
 }
 
 int ChessBoardWidget::cellSize() const { return width() / board_size_; }
