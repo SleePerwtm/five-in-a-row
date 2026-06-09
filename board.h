@@ -44,6 +44,8 @@ private:
   bool inBound(int x, int y) const;
   /* 根据二维坐标求得对应的一维数组中的索引 */
   std::size_t index(int x, int y) const;
+  /* 统计从(x,y)出发(不含)，在(dx,dy)方向上连续chess棋子的数量 */
+  int countConsecutive(int x, int y, int dx, int dy, Chess chess) const;
 };
 
 #endif // BOARD_H

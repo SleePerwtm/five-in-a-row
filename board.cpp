@@ -40,14 +40,7 @@ bool Board::hasFiveInBoard(Chess chess) const {
       // 判断该方向上是否有五个棋子相连
       for (const auto kDirection : kDirections) {
         int count = 1;
-        for (int step = 1; step <= 4; ++step) {
-          int next_x = i + kDirection[0] * step;
-          int next_y = j + kDirection[1] * step;
-          if (!inBound(next_x, next_y) || at(next_x, next_y) != chess) {
-            break;
-          }
-          ++count;
-        }
+        count += countConsecutive(i, j, kDirection[0], kDirection[1], chess);
 
         // 有大于等于五个棋子相连
         if (count >= 5) {
@@ -75,27 +68,11 @@ bool Board::hasFiveAt(int x, int y, Chess chess) const {
 
   // 判断该方向上是否有五个棋子相连
   for (const auto kDirection : kDirections) {
-    int count = 1;
-
-    for (int step = 1; step <= 4; ++step) {
-      int next_x = x + kDirection[0] * step;
-      int next_y = y + kDirection[1] * step;
-      if (!inBound(next_x, next_y) || at(next_x, next_y) != chess) {
-        break;
-      }
-      ++count;
-    }
-    for (int step = 1; step <= 4; ++step) {
-      int next_x = x - kDirection[0] * step;
-      int next_y = y - kDirection[1] * step;
-      if (!inBound(next_x, next_y) || at(next_x, next_y) != chess) {
-        break;
-      }
-      ++count;
-    }
-
+    int cnt = 1;
+    cnt += countConsecutive(x, y, kDirection[0], kDirection[1], chess);
+    cnt += countConsecutive(x, y, -kDirection[0], -kDirection[1], chess);
     // 有大于等于五个棋子相连
-    if (count >= 5) {
+    if (cnt >= 5) {
       return true;
     }
   }
@@ -161,3 +138,17 @@ void Board::forceClear(int x, int y) {
 
 int Board::width() const { return width_; }
 int Board::height() const { return height_; }
+
+/* 统计从(x,y)出发(不含)，在(dx,dy)方向上连续chess棋子的数量 */
+int Board::countConsecutive(int x, int y, int dx, int dy, Chess chess) const {
+  int count = 0;
+  for (int step = 1; step <= 5; ++step) {
+    int nx = x + dx * step;
+    int ny = y + dy * step;
+    if (!inBound(nx, ny) || at(nx, ny) != chess) {
+      break;
+    }
+    ++count;
+  }
+  return count;
+}
